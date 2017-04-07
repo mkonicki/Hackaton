@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.server.{Directives, Route}
 import akka.stream.Materializer
 import ch.megard.akka.http.cors.CorsDirectives._
+import charging.ChargingMediator
 import db.BeaconInfoFacade
 import json.{BeaconInfo, JsonSupport}
 
@@ -48,6 +49,16 @@ trait DzidaRoutes extends Directives with JsonSupport{
             complete(beaconInfo)
           }
         }
+    }~
+    pathPrefix("chargingStatus"){
+      get{
+        path(IntNumber){int =>
+          val chargingMediator = new ChargingMediator(int)
+          complete{
+            chargingMediator.createStatus()
+          }
+        }
+      }
     }
   }
 }
