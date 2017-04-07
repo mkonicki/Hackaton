@@ -4,13 +4,15 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.server.{Directives, Route}
 import akka.stream.Materializer
 import ch.megard.akka.http.cors.CorsDirectives._
+import db.BeaconInfoFacade
+import json.{BeaconInfo, JsonSupport}
 
 import scala.concurrent.ExecutionContextExecutor
 
 /**
   * Created by bartosz on 07.04.17.
   */
-trait DzidaRoutes extends Directives {
+trait DzidaRoutes extends Directives with JsonSupport{
 
 
   implicit val system: ActorSystem
@@ -27,6 +29,25 @@ trait DzidaRoutes extends Directives {
       get {
         complete("it works!")
       }
+    }~
+    pathPrefix("beacon") {
+      get {
+        pathEnd {
+          complete("tbd")
+        } ~
+          path(IntNumber) { int =>
+            complete {
+            "tbd"
+            }
+          }
+      } ~
+        post {
+          entity(as[BeaconInfo]) { beaconInfo =>
+            val beaconInfoFacade = new BeaconInfoFacade()
+            beaconInfoFacade.save(beaconInfo)
+            complete(beaconInfo)
+          }
+        }
     }
   }
 }

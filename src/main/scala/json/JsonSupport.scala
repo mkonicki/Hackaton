@@ -8,4 +8,5 @@ import spray.json.DefaultJsonProtocol
   */
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 
+  implicit val beaconInfoFormat = jsonFormat4(BeaconInfo)
 }
