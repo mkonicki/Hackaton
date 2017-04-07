@@ -17,7 +17,8 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.0",
     "ch.megard" %% "akka-http-cors" % "0.1.11",
     "org.mongodb" %% "casbah" % "3.1.1",
-    "org.apache.spark" % "spark-core_2.11" % "2.1.0"
+    "org.apache.spark" % "spark-core_2.11" % "2.1.0",
+    "org.apache.spark" % "spark-mllib_2.11" % "2.1.0"
   )
 }
     
