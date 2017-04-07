@@ -10,6 +10,6 @@ import json.BeaconInfo
 object Insert {
 
   def save(mongoObject: MongoDBObject) {
-    MongoFactory.collection.save(mongoObject)
+    MongoFactory.beaconinfos.save(mongoObject)
   }
 }

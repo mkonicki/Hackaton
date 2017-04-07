@@ -11,5 +11,5 @@ object MongoFactory {
   private val DATABASE = "dzida"
   private val COLLECTION = "beaconinfos"
   val connection = MongoConnection(SERVER)
-  val collection = connection(DATABASE)(COLLECTION)
+  val beaconinfos = connection(DATABASE)(COLLECTION)
 }
