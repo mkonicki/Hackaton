@@ -7,6 +7,7 @@ import ch.megard.akka.http.cors.CorsDirectives._
 import charging.ChargingMediator
 import db.BeaconInfoFacade
 import json.{BeaconInfo, JsonSupport}
+import spark.SparkAnalyze
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -57,6 +58,15 @@ trait DzidaRoutes extends Directives with JsonSupport{
           complete{
             chargingMediator.createStatus()
           }
+        }
+      }
+    }~
+    pathPrefix("spark"){
+      get{
+        pathEnd{
+          val e = new SparkAnalyze()
+          e.test()
+          complete("!")
         }
       }
     }
