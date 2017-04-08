@@ -73,7 +73,7 @@ trait DzidaRoutes extends Directives with JsonSupport{
       get{
         pathEnd{
           val e = new SparkAnalyze()
-          complete(new AttractivePlace().calculate("7C:4D:1D:5G:04").toString)
+          complete("2")
         }
       }
     }~

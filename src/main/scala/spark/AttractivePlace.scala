@@ -37,8 +37,6 @@ class AttractivePlace {
     //val date = dateToNumber(new Date())
     val date = Vectors.dense(1715)
     List(verifyEstimatedQueue(model.predict(Vectors.dense(815)).toInt), verifyEstimatedQueue(model.predict(Vectors.dense(1215)).toInt), verifyEstimatedQueue(model.predict(Vectors.dense(1715)).toInt))
-//    val estimatedQueue = model.predict(date)
-//    if (estimatedQueue<1) 0 else estimatedQueue
   }
   def toLP(obj: MongoDBObject):LabeledPoint = {
     val mac = obj.getAs[String]("mac").get
@@ -47,7 +45,7 @@ class AttractivePlace {
   }
 
 
-  def verifyEstimatedQueue = (value:Int) => if(value<1) 0 else value
+  def verifyEstimatedQueue = (value:Int) => if(value<1) 0 else (Math.sqrt(value)* 63).toInt
 
   val placeToNumber = (mac:String) => mac match{
     case "12312dasda:asdas" => 5

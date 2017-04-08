@@ -1,6 +1,9 @@
 package spark
 import java.util.Date
 
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.feature.VectorIndexer
+import org.apache.spark.ml.regression.{AFTSurvivalRegression, RandomForestRegressor}
 import org.apache.spark.mllib.classification.SVMWithSGD
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.linalg.Vectors
@@ -56,16 +59,16 @@ class SparkAnalyze {
     val dataRdd = sc.parallelize(data)
     val numIterations = 100
     val stepSize = 0.001
-    val model = LinearRegressionWithSGD.train(dataRdd, numIterations, stepSize)
 
-    val valuesAndPreds = dataRdd.map { point =>
-      val prediction = model.predict(point.features)
-      (point.label, prediction)
-    }
-    println("sadasdasdA "+model.predict(Vectors.dense(20)))
-    val MSE = valuesAndPreds.map{ case(v, p) => math.pow((v - p), 2) }.mean()
-    println("training Mean Squared Error = " + MSE)
+    val quantileProbabilities = Array(0.3, 0.6)
+    val aft = new AFTSurvivalRegression()
+      .setQuantileProbabilities(quantileProbabilities)
+      .setQuantilesCol("quantiles")
 
+    val test = sc.parallelize(List(20))
+    val predictedValue = aft.fit(test.toDS())
+    println("sadasdasdA "+aft.fit(test.toDS()))
+  predictedValue
   }
 
 }
