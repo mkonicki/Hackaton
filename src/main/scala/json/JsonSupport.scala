@@ -13,4 +13,5 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val attractivePlaceFormat = jsonFormat2(AttractivePlace)
   implicit val statisticFormat = jsonFormat2(Statistic)
   implicit val statisticSummaryFormat = jsonFormat1(StatisticSummary)
+  implicit val favouritePlaceJsonFormat = jsonFormat2(FavouritePlaceJson)
 }

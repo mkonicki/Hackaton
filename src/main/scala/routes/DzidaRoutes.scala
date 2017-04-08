@@ -6,7 +6,7 @@ import akka.stream.Materializer
 import ch.megard.akka.http.cors.CorsDirectives._
 import charging.ChargingMediator
 import db.BeaconInfoFacade
-import json.{BeaconInfo, JsonSupport}
+import json.{BeaconInfo, FavouritePlaceJson, JsonSupport}
 import spark.{AttractivePlace, FavouritePlace, SparkAnalyze, StatisticSummaryFactory}
 
 import scala.concurrent.ExecutionContextExecutor
@@ -89,7 +89,7 @@ trait DzidaRoutes extends Directives with JsonSupport{
         get{
           path(IntNumber){ int =>
             val favourite = new FavouritePlace(int)
-            complete(favourite.getMac())
+            complete(FavouritePlaceJson(int,favourite.getMac()))
           }
         }
       }

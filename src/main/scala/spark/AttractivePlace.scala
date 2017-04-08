@@ -19,10 +19,10 @@ class AttractivePlace {
   val DATE_DIV_NUMBER = 100000
 
   def getAttractivePlaceQueue(id:Int): json.AttractivePlace ={
-    AttractivePlace(numberToPlace(id), calculate(numberToPlace(id)).toInt)
+    AttractivePlace(numberToPlace(id), calculate(numberToPlace(id)))
   }
 
-  def calculate(mac:String):Double={
+  def calculate(mac:String):List[Int]={
     val sc = SparkConfig.getSc()
     val spark: org.apache.spark.sql.SparkSession = SparkSession.builder().getOrCreate()
     import spark.implicits._
@@ -34,15 +34,20 @@ class AttractivePlace {
     val numIterations = 100
     val stepSize = 0.000001
     val model = LinearRegressionWithSGD.train(dataRdd, numIterations, stepSize)
-    val date = dateToNumber(new Date())
-    val estimatedQueue = model.predict(date)
-    if (estimatedQueue<1) 0 else estimatedQueue
+    //val date = dateToNumber(new Date())
+    val date = Vectors.dense(1715)
+    List(verifyEstimatedQueue(model.predict(Vectors.dense(815)).toInt), verifyEstimatedQueue(model.predict(Vectors.dense(1215)).toInt), verifyEstimatedQueue(model.predict(Vectors.dense(1715)).toInt))
+//    val estimatedQueue = model.predict(date)
+//    if (estimatedQueue<1) 0 else estimatedQueue
   }
   def toLP(obj: MongoDBObject):LabeledPoint = {
     val mac = obj.getAs[String]("mac").get
     val date = obj.getAs[Date]("dateTime").get
     LabeledPoint(placeToNumber(mac), dateToNumber(date))
   }
+
+
+  def verifyEstimatedQueue = (value:Int) => if(value<1) 0 else value
 
   val placeToNumber = (mac:String) => mac match{
     case "12312dasda:asdas" => 5
