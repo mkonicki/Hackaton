@@ -5,6 +5,7 @@ import java.util.{Calendar, Date}
 
 import com.mongodb.casbah.commons.MongoDBObject
 import db.MongoFactory
+import json.AttractivePlace
 import org.apache.spark.mllib.classification.NaiveBayes
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.{LabeledPoint, LinearRegressionWithSGD}
@@ -16,7 +17,11 @@ import org.apache.spark.sql.SparkSession
 class AttractivePlace {
 
   val DATE_DIV_NUMBER = 100000
-  val db = List((1,"1520"), ())
+
+  def getAttractivePlaceQueue(id:Int): json.AttractivePlace ={
+    AttractivePlace(numberToPlace(id), calculate(numberToPlace(id)).toInt)
+  }
+
   def calculate(mac:String):Double={
     val sc = SparkConfig.getSc()
     val spark: org.apache.spark.sql.SparkSession = SparkSession.builder().getOrCreate()
@@ -47,6 +52,13 @@ class AttractivePlace {
     case "7C:4D:1D:5G:01" => 1
   }
 
+  val numberToPlace = (id:Int) => id match{
+    case 1 => "7C:4D:1D:5G:01"
+    case 2 => "7C:4D:1D:5G:02"
+    case 3 => "7C:4D:1D:5G:03"
+    case 4 => "7C:4D:1D:5G:04"
+    case 5 => "12312dasda:asdas"
+  }
   val dateToNumber = (date:Date) =>{
     val localTimeFormat = new SimpleDateFormat("HH:mm")
     val time = localTimeFormat.format(date).replaceAll(":","")
