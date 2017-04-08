@@ -7,7 +7,7 @@ import ch.megard.akka.http.cors.CorsDirectives._
 import charging.ChargingMediator
 import db.BeaconInfoFacade
 import json.{BeaconInfo, JsonSupport}
-import spark.{AttractivePlace, SparkAnalyze}
+import spark.{AttractivePlace, SparkAnalyze, StatisticSummaryFactory}
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -76,6 +76,14 @@ trait DzidaRoutes extends Directives with JsonSupport{
           complete(new AttractivePlace().calculate("7C:4D:1D:5G:04").toString)
         }
       }
-    }
+    }~
+      pathPrefix("summary"){
+        get{
+          pathEnd{
+            val summary = new StatisticSummaryFactory()
+            complete(summary.create())
+          }
+        }
+      }
   }
 }
