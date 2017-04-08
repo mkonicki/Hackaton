@@ -8,6 +8,8 @@ import org.apache.spark.{SparkConf, SparkContext}
 object SparkConfig {
 
   def getSc(): SparkContext={
+    val props = System.getProperties()
+    props.setProperty("spark.driver.allowMultipleContexts","true")
     val conf = new SparkConf().setAppName("DzidaBackend").setMaster("local")
     val sc = new SparkContext(conf)
     sc

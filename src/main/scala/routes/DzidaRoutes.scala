@@ -7,7 +7,7 @@ import ch.megard.akka.http.cors.CorsDirectives._
 import charging.ChargingMediator
 import db.BeaconInfoFacade
 import json.{BeaconInfo, JsonSupport}
-import spark.SparkAnalyze
+import spark.{AttractivePlace, SparkAnalyze}
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -61,12 +61,22 @@ trait DzidaRoutes extends Directives with JsonSupport{
         }
       }
     }~
+    pathPrefix("attractivePlace"){
+      get{
+        path(IntNumber){ int =>
+          val attractivePlace = new AttractivePlace()
+//          attractivePlace.calculate()
+          complete("2")
+        }
+      }
+    }~
     pathPrefix("spark"){
       get{
         pathEnd{
           val e = new SparkAnalyze()
-          e.test()
-          complete("!")
+//          e.test2()
+          complete(new AttractivePlace().calculate("7C:4D:1D:5G:04").toString)
+//          complete("!")
         }
       }
     }
